@@ -35,7 +35,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { Separator } from "~/components/ui/separator";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Textarea } from "~/components/ui/textarea";
 import type { SpeechCard } from "~/types/speech-card";
@@ -156,49 +155,60 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-8 md:px-12 lg:px-16 mx-auto">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center gap-2 mb-8">
         <div className="flex flex-col">
           <h1 className="text-4xl font-bold">Speech cards</h1>
           <p className="text-gray-600">
             Turn your speech into printable cards for free
           </p>
         </div>
-        <Dialog>
-          <Button variant="ghost" asChild>
-            <DialogTrigger>
-              <InfoIcon />
-              About
-            </DialogTrigger>
-          </Button>
 
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>About this page</DialogTitle>
-              <DialogDescription className="space-y-4">
-                <p>
-                  This is a free tool to help you transform your next speech
-                  into printable cards.
-                </p>
-                <p>
-                  Simply add your speech content to the cards, customize the
-                  design, and download the generated PDF. Then use a pair of
-                  scissors to cut out the cards and you're ready to go!
-                </p>
-                <p>
-                  Perfect for occasions like weddings, conferences, or any
-                  public speaking event.
-                </p>
+        <div className="flex flex-col md:flex-row items-stretch gap-2">
+          <a href="https://ko-fi.com/X8X21K7CE7" target="_blank">
+            <img
+              style={{ border: 0, height: 36 }}
+              src="https://storage.ko-fi.com/cdn/kofi1.png?v=6"
+              alt="Buy Me a Coffee at ko-fi.com"
+            />
+          </a>
 
-                <Separator />
+          <Dialog>
+            <Button variant="ghost" asChild>
+              <DialogTrigger>
+                <InfoIcon />
+                About
+              </DialogTrigger>
+            </Button>
 
-                <p>
-                  Runs entirely in your browser. Your data is never sent
-                  anywhere and is deleted when you close the tab.
-                </p>
-              </DialogDescription>
-            </DialogHeader>
-          </DialogContent>
-        </Dialog>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>About this page</DialogTitle>
+                <DialogDescription className="space-y-4">
+                  <span className="block">
+                    This is a free tool to help you transform your next speech
+                    into printable cards.
+                  </span>
+
+                  <span className="block">
+                    Simply add your speech content to the cards, customize the
+                    design, and download the generated PDF. Then use a pair of
+                    scissors to cut out the cards and you're ready to go!
+                  </span>
+
+                  <span className="block">
+                    Perfect for occasions like weddings, conferences, or any
+                    public speaking event.
+                  </span>
+
+                  <span className="block">
+                    Runs entirely in your browser. Your data is never sent
+                    anywhere and is deleted when you close the tab.
+                  </span>
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-4 mx-auto">
@@ -355,7 +365,9 @@ export default function Home() {
                     setShowToolbar(checked === true)
                   }
                 />
-                <Label htmlFor="showToolbar">Show toolbar</Label>
+                <Label htmlFor="showToolbar">
+                  Show toolbar (may not work on all browsers)
+                </Label>
               </div>
             </div>
 
