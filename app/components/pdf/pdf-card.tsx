@@ -3,7 +3,7 @@ import type { SpeechCard } from "~/types/speech-card";
 
 Font.register({
   family: "Cormorant Garamond",
-  src: "http://fonts.gstatic.com/s/cormorantgaramond/v3/EI2hhCO6kSfLAy-Dpd8fd4kMrRif0q9E9OjhWn94a1w.ttf",
+  src: "https://fonts.gstatic.com/s/cormorantgaramond/v3/EI2hhCO6kSfLAy-Dpd8fd4kMrRif0q9E9OjhWn94a1w.ttf",
 });
 
 const borderStyleMap: Record<number, string> = {
