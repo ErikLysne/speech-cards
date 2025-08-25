@@ -1,3 +1,4 @@
+import { Buffer } from "buffer";
 import {
   isRouteErrorResponse,
   Links,
@@ -6,9 +7,11 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-
 import type { Route } from "./+types/root";
 import "./app.css";
+import { ThemeProvider } from "./components/theme/theme-provider";
+
+globalThis.Buffer = Buffer;
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -51,7 +54,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <ThemeProvider defaultTheme="light">{children}</ThemeProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

@@ -7,6 +7,7 @@ import {
 import { DownloadIcon, InfoIcon, PlusIcon, XIcon } from "lucide-react";
 import React from "react";
 import { PDFCard } from "~/components/pdf/pdf-card";
+import { ModeToggle } from "~/components/theme/mode-toggle";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -37,6 +38,7 @@ import {
 } from "~/components/ui/select";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Textarea } from "~/components/ui/textarea";
+import { KoFiButton } from "~/components/utils/ko-fi-button";
 import type { SpeechCard } from "~/types/speech-card";
 import { ClientOnly } from "~/utils/client-only";
 import { useDebounce } from "~/utils/use-debounce";
@@ -154,23 +156,15 @@ export default function Home() {
   }, [debouncedPdfInputs]);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-8 md:px-12 lg:px-16 mx-auto">
-      <div className="flex justify-between items-center gap-2 mb-8">
+    <div className="min-h-screen py-2 px-2 md:py-8 md:px-8 lg:px-16 mx-auto">
+      <div className="flex justify-between flex-col md:flex-row gap-4 mb-4">
         <div className="flex flex-col">
           <h1 className="text-4xl font-bold">Speech cards</h1>
-          <p className="text-gray-600">
-            Turn your speech into printable cards for free
-          </p>
+          <p>Turn your speech into printable cards for free</p>
         </div>
 
-        <div className="flex flex-col md:flex-row items-stretch gap-2">
-          <a href="https://ko-fi.com/X8X21K7CE7" target="_blank">
-            <img
-              style={{ border: 0, height: 36 }}
-              src="https://storage.ko-fi.com/cdn/kofi1.png?v=6"
-              alt="Buy Me a Coffee at ko-fi.com"
-            />
-          </a>
+        <div className="flex gap-2">
+          <KoFiButton />
 
           <Dialog>
             <Button variant="ghost" asChild>
@@ -182,25 +176,25 @@ export default function Home() {
 
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>About this page</DialogTitle>
+                <DialogTitle>About speechcards.app</DialogTitle>
                 <DialogDescription className="space-y-4">
-                  <span className="block">
+                  <span className="block text-left">
                     This is a free tool to help you transform your next speech
                     into printable cards.
                   </span>
 
-                  <span className="block">
+                  <span className="block text-left">
                     Simply add your speech content to the cards, customize the
                     design, and download the generated PDF. Then use a pair of
                     scissors to cut out the cards and you're ready to go!
                   </span>
 
-                  <span className="block">
+                  <span className="block text-left">
                     Perfect for occasions like weddings, conferences, or any
                     public speaking event.
                   </span>
 
-                  <span className="block">
+                  <span className="block text-left">
                     Runs entirely in your browser. Your data is never sent
                     anywhere and is deleted when you close the tab.
                   </span>
@@ -208,6 +202,8 @@ export default function Home() {
               </DialogHeader>
             </DialogContent>
           </Dialog>
+
+          <ModeToggle />
         </div>
       </div>
 
@@ -222,12 +218,12 @@ export default function Home() {
               >{`(${cards.length})`}</span>
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-2 md:px-4">
             <ScrollArea className="h-[400]px lg:h-[100vh] w-full">
               <div className="flex flex-col gap-2">
                 {cards.length > 0 ? (
                   cards.map((card, index) => (
-                    <Card key={card.id} className="w-full bg-">
+                    <Card key={card.id} className="w-full">
                       <CardHeader>
                         <CardTitle>{`Card ${index + 1}`}</CardTitle>
                         <CardAction>
@@ -272,7 +268,7 @@ export default function Home() {
                   </p>
                 )}
 
-                <Button variant="default" className="w-full" onClick={addCard}>
+                <Button variant="outline" onClick={addCard}>
                   <PlusIcon /> Add Card
                 </Button>
               </div>
@@ -281,13 +277,54 @@ export default function Home() {
         </Card>
 
         <Card className="flex-1">
-          <CardHeader>
+          <CardHeader className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
             <CardTitle>Generated PDF</CardTitle>
 
+            <CardAction className="w-full sm:w-auto">
+              <ClientOnly
+                fallback={
+                  <Button
+                    variant="default"
+                    disabled
+                    className="w-full sm:w-auto"
+                  >
+                    <DownloadIcon />
+                    Download PDF
+                  </Button>
+                }
+              >
+                {cards.length === 0 ? (
+                  <Button
+                    variant="default"
+                    disabled
+                    className="w-full sm:w-auto"
+                  >
+                    <DownloadIcon />
+                    Download PDF
+                  </Button>
+                ) : (
+                  <Button
+                    variant="default"
+                    asChild
+                    className="w-full sm:w-auto"
+                  >
+                    <PDFDownloadLink
+                      key={JSON.stringify(debouncedPdfInputs)}
+                      document={PDFDocument}
+                      fileName="speech-cards.pdf"
+                      className="inline-flex w-full sm:w-auto items-center justify-center gap-2"
+                    >
+                      <DownloadIcon />
+                      Download PDF
+                    </PDFDownloadLink>
+                  </Button>
+                )}
+              </ClientOnly>
+            </CardAction>
+          </CardHeader>
+          <CardContent className="overflow-auto">
             <div className="mt-2 mb-4 flex flex-col">
-              <p className="mb-2 text-sm text-gray-600">
-                Customize card design:
-              </p>
+              <p className="mb-2 text-sm">Customize card design:</p>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-1">
                 <div className="flex items-center gap-2">
                   <Checkbox
@@ -356,7 +393,7 @@ export default function Home() {
             </div>
 
             <div className="mb-4 flex flex-col">
-              <p className="mb-2 text-sm text-gray-600">PDF Viewer settings:</p>
+              <p className="mb-2 text-sm">PDF Viewer settings:</p>
               <div className="flex items-center gap-2">
                 <Checkbox
                   id="showToolbar"
@@ -371,33 +408,11 @@ export default function Home() {
               </div>
             </div>
 
-            <CardAction>
-              <ClientOnly
-                fallback={
-                  <Button variant="default" disabled>
-                    <DownloadIcon />
-                    Download PDF
-                  </Button>
-                }
-              >
-                <Button variant="default" disabled={cards.length === 0}>
-                  <DownloadIcon />
-                  <PDFDownloadLink
-                    key={JSON.stringify(debouncedPdfInputs)}
-                    document={PDFDocument}
-                    fileName="speech-cards.pdf"
-                  >
-                    Download PDF
-                  </PDFDownloadLink>
-                </Button>
-              </ClientOnly>
-            </CardAction>
-          </CardHeader>
-          <CardContent className="overflow-auto">
             <ClientOnly fallback={<Skeleton className="w-full h-[80vh]" />}>
               <PDFViewer
                 key={JSON.stringify(debouncedPdfInputs)}
                 showToolbar={showToolbar}
+                width="100%"
                 style={{ width: "100%", height: "80vh" }}
               >
                 {PDFDocument}
