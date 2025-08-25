@@ -41,7 +41,10 @@ export const links: Route.LinksFunction = () => [
     sizes: "16x16",
     href: "/favicon-16x16.png",
   },
-  { rel: "manifest", href: "/site.webmanifest" },
+  {
+    rel: "manifest",
+    href: "/site.webmanifest",
+  },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -50,6 +53,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="google-adsense-account" content="ca-pub-1143371117633181" />
         <Meta />
         <Links />
       </head>
