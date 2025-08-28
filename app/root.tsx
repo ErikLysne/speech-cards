@@ -1,3 +1,5 @@
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Buffer } from "buffer";
 import {
   isRouteErrorResponse,
@@ -58,6 +60,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <ThemeProvider defaultTheme="light">{children}</ThemeProvider>
+        <SpeedInsights />
+        <Analytics />
         <ScrollRestoration />
         <Scripts />
       </body>
